@@ -3,6 +3,8 @@ name: main
 on:
   push:
     branches: [ main ]
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -26,13 +28,6 @@ jobs:
       - uses: bufbuild/buf-setup-action@v0.6.0
         with:
           version: 'latest'
-#      - uses: go-semantic-release/action@v1
-#        id: semver
-#        with:
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-#          allow-initial-development-versions: true
-#          force-bump-patch-version: true
-          # prerelease: false
       - name: Buf Version
         run: buf --version
       - name: Install Protoc
