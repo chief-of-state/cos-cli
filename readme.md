@@ -1,6 +1,7 @@
 ## CoS Cli
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/chief-of-state/cos-cli/main)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/chief-of-state/cos-cli?include_prereleases)
 
 The Chief Of State Command line Tool(a.k.a cos-cli) is command line tool that will help execute some
 commands against a running Chief Of State instance. 
