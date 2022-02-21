@@ -18,7 +18,7 @@ jobs:
           platforms: all
       - uses: actions/checkout@v2
         with:
-          submodules: false
+          submodules: true
       - uses: actions/setup-go@v2
         with:
           go-version: '1.17'
@@ -28,7 +28,7 @@ jobs:
           version: 'latest'
       - name: Buf Version
         run: buf --version
-      - name: Checkout submodules
-        run: "git submodule update --init"
+#      - name: Checkout submodules
+#        run: "git submodule update --init"
       - name: Protogen
         run: buf generate --template buf.gen.yaml --path protos/chief-of-state-protos/chief_of_state/v1

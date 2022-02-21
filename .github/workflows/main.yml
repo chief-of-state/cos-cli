@@ -18,7 +18,7 @@ jobs:
           platforms: all
       - uses: actions/checkout@v2
         with:
-          submodules: false
+          submodules: true
       - uses: actions/setup-go@v2
         with:
           go-version: '1.17'
@@ -26,17 +26,17 @@ jobs:
       - uses: bufbuild/buf-setup-action@v0.6.0
         with:
           version: 'latest'
-      - uses: go-semantic-release/action@v1
-        id: semver
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          allow-initial-development-versions: true
-          force-bump-patch-version: true
+#      - uses: go-semantic-release/action@v1
+#        id: semver
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          allow-initial-development-versions: true
+#          force-bump-patch-version: true
           # prerelease: false
       - name: Buf Version
         run: buf --version
-      - name: Checkout submodules
-        run: "git submodule update --init"
+#      - name: Checkout submodules
+#        run: "git submodule update --init"
       - name: Protogen
         run: buf generate --template buf.gen.yaml --path protos/chief-of-state-protos/chief_of_state/v1
       - name: Release
