@@ -31,18 +31,3 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
-release:
-
-  # Header template for the release body.
-  # Defaults to empty.
-  header: |
-    ## CoS cli ({{ .Date }})
-
-    Welcome to this new release!
-
-  # Footer template for the release body.
-  # Defaults to empty.
-  footer: |
-    ## Thanks!
-
-    Those were the changes on {{ .Tag }}!

@@ -1,15 +1,22 @@
-# Chief Of State Command Line
+## CoS Cli
 
-[![main](https://github.com/chief-of-state/cos-cli/actions/workflows/main.yml/badge.svg)](https://github.com/chief-of-state/cos-cli/actions/workflows/main.yml)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/chief-of-state/cos-cli/main)
 
 The Chief Of State Command line Tool(a.k.a cos-cli) is command line tool that will help execute some
 commands against a running Chief Of State instance. 
 
-# Usage
+## Features
+With the cos-cli one can manage the various read sides that will be running with CoS.
+- Resume a read side  across the whole cluster or given a shard number.
+- Pause a read side  across the whole cluster or given a shard number.
+- Skip a read side offsets across the whole cluster or given a shard number. 
+- List a read side offsets across the whole cluster or given a shard number.
 
-Download any of the artifacts that matches your OS at [releases](https://github.com/chief-of-state/cos-cli/releases).
+## Usage
 
-```bash
+- Download any of the artifacts that matches your OS at [releases](https://github.com/chief-of-state/cos-cli/releases).
+- Run `cos-cli` and you will see the output displayed below:
+```
 cos-cli is command line tool that helps send commands to a running CoS to manage the various read sides.
 
 Usage:
@@ -26,5 +33,13 @@ Flags:
   -h, --help             help for cos-cli
 
 Use "cos-cli [command] --help" for more information about a command.
-
 ```
+
+### Examples
+
+- List offsets across the whole cluster for read side `READSIDE_1`: `cos-cli readside offset --cosHost=localhost --cosPort=9000 --id=READSIDE_1`
+- Get offset for a given shard for read side `READSIDE_1`: `cos-cli readside offset --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2`
+- Pause read side across the whole cluster `READSIDE_1`: `cos-cli readside pause --cosHost=localhost --cosPort=9000 --id=READSIDE_1`
+- Pause the read side `READSIDE_1` for the shard number 2: `cos-cli readside pause --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2`
+- Resume paused read side across the whole cluster `READSIDE_1`: `cos-cli readside resume --cosHost=localhost --cosPort=9000 --id=READSIDE_1`
+- Pause the paused read side `READSIDE_1` for the shard number 2: `cos-cli readside resume --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2`
