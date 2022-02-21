@@ -35,15 +35,8 @@ golang-base:
     RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
     RUN export PATH="$PATH:$(go env GOPATH)/bin"
 
-    # install vektra/mockery
-    RUN go get github.com/vektra/mockery/v2/.../
-
     # install buf from source
     RUN GO111MODULE=on GOBIN=/usr/local/bin go get \
         github.com/bufbuild/buf/cmd/buf \
         github.com/bufbuild/buf/cmd/protoc-gen-buf-breaking \
         github.com/bufbuild/buf/cmd/protoc-gen-buf-lint
-
-    # install linter
-    # binary will be $(go env GOPATH)/bin/golangci-lint
-    RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.42.1

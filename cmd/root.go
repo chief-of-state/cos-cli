@@ -21,9 +21,6 @@ var rootCmd = &cobra.Command{
 	Use:   "cos-cli",
 	Short: "Chief Of State Command Line Tool",
 	Long:  `cos-cli is command line tool that helps send commands to a running CoS to manage the various read sides.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

@@ -1,0 +1,49 @@
+name: main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
+    steps:
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: all
+      - uses: actions/checkout@v2
+        with:
+          submodules: false
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.17'
+          check-latest: true
+      - uses: bufbuild/buf-setup-action@v0.6.0
+        with:
+          version: 'latest'
+      - uses: go-semantic-release/action@v1
+        id: semver
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          allow-initial-development-versions: true
+          force-bump-patch-version: true
+          # prerelease: false
+      - name: Buf Version
+        run: buf --version
+      - name: Checkout submodules
+        run: "git submodule update --init"
+      - name: Protogen
+        run: buf generate --template buf.gen.yaml --path protos/chief-of-state-protos/chief_of_state/v1
+      - name: Release
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

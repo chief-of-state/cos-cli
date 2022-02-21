@@ -10,7 +10,7 @@ plugins:
   - name: go
     out: gen
     opt: paths=source_relative
-  - name: go-grpcclient
+  - name: go-grpc
     out: gen
     opt:
       - paths=source_relative
