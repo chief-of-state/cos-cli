@@ -14,6 +14,7 @@ With the cos-cli one can manage the various read sides that will be running with
 
 ## Usage
 
+- One needs at least CoS version [1.0.0-beta.1](https://github.com/chief-of-state/chief-of-state/pkgs/container/chief-of-state/15359929?tag=1.0.0-beta.1) running before using the cos-cli
 - Download any of the artifacts that matches your OS at [releases](https://github.com/chief-of-state/cos-cli/releases).
 - Run `cos-cli` and you will see the output displayed below:
 ```
@@ -37,9 +38,27 @@ Use "cos-cli [command] --help" for more information about a command.
 
 ### Examples
 
-- List offsets across the whole cluster for read side `READSIDE_1`: `cos-cli readside offset --cosHost=localhost --cosPort=9000 --id=READSIDE_1`
-- Get offset for a given shard for read side `READSIDE_1`: `cos-cli readside offset --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2`
-- Pause read side across the whole cluster `READSIDE_1`: `cos-cli readside pause --cosHost=localhost --cosPort=9000 --id=READSIDE_1`
-- Pause the read side `READSIDE_1` for the shard number 2: `cos-cli readside pause --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2`
-- Resume paused read side across the whole cluster `READSIDE_1`: `cos-cli readside resume --cosHost=localhost --cosPort=9000 --id=READSIDE_1`
-- Pause the paused read side `READSIDE_1` for the shard number 2: `cos-cli readside resume --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2`
+- List offsets across the whole cluster for read side `READSIDE_1`: 
+```bash 
+cos-cli readside offset --cosHost=localhost --cosPort=9000 --id=READSIDE_1
+```
+- Get offset for a given shard for read side `READSIDE_1`: 
+```bash
+cos-cli readside offset --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2
+ ```
+- Pause read side across the whole cluster `READSIDE_1`: 
+```bash 
+cos-cli readside pause --cosHost=localhost --cosPort=9000 --id=READSIDE_1
+```
+- Pause the read side `READSIDE_1` for the shard number 2:
+```bash 
+cos-cli readside pause --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2
+```
+- Resume paused read side across the whole cluster `READSIDE_1`: 
+```bash 
+cos-cli readside resume --cosHost=localhost --cosPort=9000 --id=READSIDE_1
+```
+- Pause the paused read side `READSIDE_1` for the shard number 2: 
+```bash 
+cos-cli readside resume --cosHost=localhost --cosPort=9000 --id=READSIDE_1 --shard-number=2
+```
