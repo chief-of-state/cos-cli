@@ -1,9 +1,4 @@
-/*
-Copyright © 2022 Chief Of State
-
-*/
-
-package grpcclient
+package cos
 
 import (
 	"context"

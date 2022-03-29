@@ -6,7 +6,6 @@ import (
 	"time"
 
 	cospb "github.com/chief-of-state/cos-cli/gen/chief_of_state/v1"
-	"github.com/chief-of-state/cos-cli/pkg/grpcclient"
 	"google.golang.org/grpc/keepalive"
 )
 
@@ -22,7 +21,7 @@ type client struct {
 
 // NewClient creates a new instance of ReadSideManager
 func NewClient(ctx context.Context, cosHost string, cosPort int) (ReadSideManager, error) {
-	clientBuilder := grpcclient.NewBuilder().
+	clientBuilder := NewBuilder().
 		WithInsecure().
 		WithKeepAliveParams(keepalive.ClientParameters{
 			Time:                KeepAliveTime,
