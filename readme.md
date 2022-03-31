@@ -8,10 +8,11 @@ commands against a running Chief Of State instance.
 
 ## Features
 With the cos-cli one can manage the various read sides that will be running with CoS.
-- Resume a read side  across the whole cluster or given a shard number.
-- Pause a read side  across the whole cluster or given a shard number.
-- Skip a read side offsets across the whole cluster or given a shard number. 
-- List a read side offsets across the whole cluster or given a shard number.
+- Resume a read side  across the whole cluster or for given a shard number.
+- Pause a read side  across the whole cluster or for given a shard number.
+- Skip a read side offsets across the whole cluster or for given a shard number. 
+- List a read side offsets across the whole cluster or for given a shard number.
+- Restart a read side across the whole cluster or for a given shard numner
 
 ## Usage
 
