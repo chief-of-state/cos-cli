@@ -35,7 +35,8 @@ jobs:
         run: buf --version
       - name: Install Connectrpc
         run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
-          go install go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
+          go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
       - name: Protogen
         run: buf generate --template buf.gen.yaml --path protos/chief-of-state-protos/chief_of_state/v1
