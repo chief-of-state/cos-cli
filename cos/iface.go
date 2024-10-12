@@ -29,7 +29,7 @@ import (
 
 	"connectrpc.com/connect"
 
-	cospb "cos-cli/gen/chief_of_state/v1"
+	cospb "github.com/chief-of-state/cos-cli/gen/chief_of_state/v1"
 )
 
 // ReadSideManager will be implemented by the CoS readSideManager

@@ -29,8 +29,8 @@ import (
 
 	"connectrpc.com/connect"
 
-	"cos-cli/cos"
-	cospb "cos-cli/gen/chief_of_state/v1"
+	"github.com/chief-of-state/cos-cli/cos"
+	cospb "github.com/chief-of-state/cos-cli/gen/chief_of_state/v1"
 
 	"github.com/spf13/cobra"
 )

@@ -30,8 +30,8 @@ import (
 
 	"connectrpc.com/connect"
 
-	cospb "cos-cli/gen/chief_of_state/v1"
-	cosconnect "cos-cli/gen/chief_of_state/v1/chief_of_statev1connect"
+	cospb "github.com/chief-of-state/cos-cli/gen/chief_of_state/v1"
+	cosconnect "github.com/chief-of-state/cos-cli/gen/chief_of_state/v1/chief_of_statev1connect"
 )
 
 const (
