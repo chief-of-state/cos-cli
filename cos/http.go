@@ -22,44 +22,42 @@
  * SOFTWARE.
  */
 
-package cmd
+package cos
 
 import (
+	"context"
+	"crypto/tls"
 	"fmt"
-	"os"
+	"net"
+	"net/http"
+	"strconv"
+	"time"
 
-	"github.com/spf13/cobra"
+	"golang.org/x/net/http2"
 )
 
-var (
-	cosHost string
-	cosPort int
-)
-
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "cos-cli",
-	Short: "Chief Of State Command Line Tool",
-	Long:  `cos-cli is command line tool that helps send commands to a running CoS to manage the various read sides.`,
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		// print the error to the stand err
-		fmt.Println(err)
-		// exit the program
-		os.Exit(1)
+// httpClient creates a http readSideManager use h2c
+func httpClient() *http.Client {
+	return &http.Client{
+		// Most RPC servers don't use HTTP redirects
+		CheckRedirect: func(_ *http.Request, _ []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+		Transport: &http2.Transport{
+			AllowHTTP: true,
+			DialTLSContext: func(_ context.Context, network, addr string, _ *tls.Config) (net.Conn, error) {
+				// If you're also using this readSideManager for non-h2c traffic, you may want to
+				// delegate to tls.Dial if the network isn't TCP or the addr isn't in an
+				// allow-list.
+				return net.Dial(network, addr)
+			},
+			PingTimeout:     30 * time.Second,
+			ReadIdleTimeout: 30 * time.Second,
+		},
 	}
 }
 
-func init() {
-	// Let us define the persistent flags cosHost and cosPort that will be used for all sub commands
-	pflags := rootCmd.PersistentFlags()
-	pflags.StringVar(&cosHost, "cosHost", "", "CoS service host address")
-	pflags.IntVar(&cosPort, "cosPort", 9000, "CoS service port")
-	_ = rootCmd.MarkFlagRequired("cosHost")
-	_ = rootCmd.MarkFlagRequired("costPort")
+// URL create a http connection address
+func URL(host string, port int) string {
+	return fmt.Sprintf("http://%s", net.JoinHostPort(host, strconv.Itoa(port)))
 }

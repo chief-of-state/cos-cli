@@ -1,11 +1,11 @@
-VERSION 0.7
+VERSION 0.8
 
-FROM tochemey/docker-go:1.20.4-0.8.0
+FROM tochemey/docker-go:1.22.5-3.2.0
 
 protogen:
     # copy the proto files to generate
     COPY --dir protos/ ./
-    COPY buf.work.yaml buf.gen.yaml ./
+    COPY buf.yaml buf.gen.yaml ./
 
     # generate the pbs
     RUN buf generate \

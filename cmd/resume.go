@@ -1,14 +1,37 @@
 /*
-Copyright © 2022 Chief Of State
+ * MIT License
+ *
+ * Copyright (c) 2022-2024 chief-of-state
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-*/
 package cmd
 
 import (
 	"log"
 
-	"github.com/chief-of-state/cos-cli/cos"
-	cospb "github.com/chief-of-state/cos-cli/gen/chief_of_state/v1"
+	"connectrpc.com/connect"
+
+	"cos-cli/cos"
+	cospb "cos-cli/gen/chief_of_state/v1"
+
 	"github.com/spf13/cobra"
 )
 
@@ -22,35 +45,29 @@ var resumeCmd = &cobra.Command{
 
 func resumeRun(cmd *cobra.Command, args []string) {
 	resumed := false
-	// let us create the cos client
-	cosClient, err := cos.NewClient(cmd.Context(), cosHost, cosPort)
-	if err != nil {
-		panic(err)
-	}
+	// let us create the read-side manager
+	manager := cos.NewReadSideManager(cmd.Context(), cosHost, cosPort)
 
-	if shardNumber >= 0 {
-		resp, err := cosClient.ResumeReadSideByShard(cmd.Context(), &cospb.ResumeReadSideByShardRequest{
+	switch {
+	case shardNumber >= 0:
+		resp, err := manager.ResumeReadSideByShard(cmd.Context(), connect.NewRequest(&cospb.ResumeReadSideByShardRequest{
 			ReadSideId:         readSideID,
 			ClusterShardNumber: uint64(shardNumber),
-		})
-		// handle the error
+		}))
 		if err != nil {
 			// TODO it is good to panic or not
 			log.Panic(err)
 		}
-		// set the resumed variable
-		resumed = resp.GetSuccessful()
-	} else {
-		resp, err := cosClient.ResumeReadSide(cmd.Context(), &cospb.ResumeReadSideRequest{
+		resumed = resp.Msg.GetSuccessful()
+	default:
+		resp, err := manager.ResumeReadSide(cmd.Context(), connect.NewRequest(&cospb.ResumeReadSideRequest{
 			ReadSideId: readSideID,
-		})
-		// handle the error
+		}))
 		if err != nil {
 			// TODO it is good to panic or not
 			log.Panic(err)
 		}
-		// set the resumed variable
-		resumed = resp.GetSuccessful()
+		resumed = resp.Msg.GetSuccessful()
 	}
 
 	if resumed {
@@ -58,7 +75,6 @@ func resumeRun(cmd *cobra.Command, args []string) {
 		return
 	}
 	log.Printf("unable to resume read side=%s\n", readSideID)
-
 }
 
 func init() {

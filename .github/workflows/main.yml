@@ -18,14 +18,17 @@ jobs:
         with:
           image: tonistiigi/binfmt:latest
           platforms: all
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: true
-      - uses: actions/setup-go@v2
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
         with:
-          go-version: '1.20'
+          go-version: '>=1.22.0'
           check-latest: true
-      - uses: bufbuild/buf-setup-action@v0.6.0
+          cache-dependency-path: "**/*.sum"
+      - run: go version
+      - uses: bufbuild/buf-setup-action@v1.42.0
         with:
           version: 'latest'
       - name: Buf Version
@@ -37,7 +40,7 @@ jobs:
       - name: Protogen
         run: buf generate --template buf.gen.yaml --path protos/chief-of-state-protos/chief_of_state/v1
       - name: Release
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: latest
